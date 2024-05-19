@@ -7,7 +7,7 @@ import {prisma } from "../../prisma/index.js"
 
 const generateToken = async (userId)=>{
     try {
-        const user = await prisma.User.findUnique({
+        const user = await prisma.user.findUnique({
             where : {
                 id : userId
             }
@@ -50,7 +50,7 @@ const generateToken = async (userId)=>{
 const signup = async (req,res)=>{
     try {
         const {email , name , password} = req.body
-        const existingUser = await prisma.User.findUnique({
+        const existingUser = await prisma.user.findUnique({
             where : {
                 email : email
             }
@@ -66,7 +66,7 @@ const signup = async (req,res)=>{
             })
         }
         const hashedPassword = await bcrypt.hash(password,10)
-        const newUser = await prisma.User.create({
+        const newUser = await prisma.user.create({
             data : {
                 email,
                 name,
@@ -106,7 +106,7 @@ const signin = async (req,res)=>{
 
         const {email , password} = req.body
 
-        const existingUser = await prisma.User.findUnique({
+        const existingUser = await prisma.user.findUnique({
             where : {
                 email
             }
@@ -184,7 +184,7 @@ const updateProfile = async (req,res)=>{
 
        // console.log("UserId : ",req.user?.id)
 
-        const user = await prisma.User.update({
+        const user = await prisma.user.update({
             where : {
                 id : req.user.id
             },
